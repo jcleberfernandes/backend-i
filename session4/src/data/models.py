@@ -16,3 +16,9 @@ date: {self.date}
 # Meeting
 
 """
+    
+
+@dataclass
+class MeetingMetadata:
+    meeting: Meeting
+    path: str 
