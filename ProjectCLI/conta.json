@@ -1,0 +1,14 @@
+[
+    {
+        "tipo": "saida",
+        "descricao": "asdasd",
+        "valor": 1231.0,
+        "data_hora": "2026-03-07T11:34:51.376904+00:00"
+    },
+    {
+        "tipo": "entrada",
+        "descricao": "gas",
+        "valor": 11111.0,
+        "data_hora": "2026-03-07T11:35:01.278088+00:00"
+    }
+]
