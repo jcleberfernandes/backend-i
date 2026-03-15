@@ -1,26 +1,33 @@
 from fastapi import FastAPI
 from uuid import uuid4
-from src.models.meeting_models import Meeting
+from src.models.meeting_models import Meeting, MeetingSummary
 from src.storage.meeting_storage import meeting_storage
+from src.services.ollama_services import generate_summary
 
-
-api= FastAPI()
-
-
-
+app= FastAPI()
 
 
 
-@api.post("/create-meeting", response_model = Meeting)
+
+
+
+@app.post("/create-meeting", response_model=MeetingSummary)
 def create_meeting(meeting: Meeting):
+    summary = generate_summary(meeting)
     meeting_id = uuid4()
-    meeting_storage[meeting_id] = meeting
+    
+    meeting_sumary = MeetingSummary(
+        id=meeting_id,
+        summary=summary
+    )
+    
+    meeting_storage[meeting_id] = summary
+    return meeting_sumary
+    
 
 
 
-
-
-@api.get("/get-meeting")
+@app.get("/get-meeting")
 def get_meetings():
     return meeting_storage
 
