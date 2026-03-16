@@ -1,7 +1,7 @@
 
 import json
 from typer import Typer
-from api.main import api
+from api.main import app
 import uvicorn
 from api.models import Meeting
 app = Typer(name="MEETING")
@@ -18,7 +18,7 @@ def ler_meeting() -> Meeting:
 
 @app.command("run")  
 def run():
-  uvicorn.run(api)
+  uvicorn.run(app)
 
 
 @app.command("request")
