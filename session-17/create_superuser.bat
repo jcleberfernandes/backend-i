@@ -1,0 +1,2 @@
+@echo off
+"C:\Users\William Cruz\Desktop\CursoETIC\projetosessions\session-16\.venv\Scripts\python.exe" "C:\Users\William Cruz\Desktop\CursoETIC\projetosessions\session-16\backend_i_django\manage.py" createsuperuser --username admin --email admin@example.com --noinput --password admin123
