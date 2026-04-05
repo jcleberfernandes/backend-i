@@ -4,6 +4,15 @@ from django.contrib.contenttypes.models import ContentType
 from meetings.models import Meeting, ActionItem
 
 
+def ensure_permission(codename: str, name: str, content_type: ContentType) -> Permission:
+    permission, _ = Permission.objects.get_or_create(
+        codename=codename,
+        content_type=content_type,
+        defaults={"name": name},
+    )
+    return permission
+
+
 class Command(BaseCommand):
     help = "Create groups and assign permissions for meetings app"
 
@@ -17,29 +26,43 @@ class Command(BaseCommand):
         editors_group, _ = Group.objects.get_or_create(name="Editors")
         admins_group, _ = Group.objects.get_or_create(name="Admins")
 
+        can_view_meeting = ensure_permission(
+            codename="can_view_meeting",
+            name="Can view meeting",
+            content_type=meeting_content_type,
+        )
+        can_edit_meeting = ensure_permission(
+            codename="can_edit_meeting",
+            name="Can edit meeting",
+            content_type=meeting_content_type,
+        )
+        can_delete_meeting = ensure_permission(
+            codename="can_delete_meeting",
+            name="Can delete meeting",
+            content_type=meeting_content_type,
+        )
+        can_view_action_item = ensure_permission(
+            codename="can_view_action_item",
+            name="Can view action item",
+            content_type=action_content_type,
+        )
+        can_complete_action_item = ensure_permission(
+            codename="can_complete_action_item",
+            name="Can complete action item",
+            content_type=action_content_type,
+        )
+
         viewer_perms = [
-            Permission.objects.get(
-                codename="can_view_meeting", content_type=meeting_content_type
-            ),
-            Permission.objects.get(
-                codename="can_view_action_item", content_type=action_content_type
-            ),
+            can_view_meeting,
+            can_view_action_item,
         ]
         viewers_group.permissions.set(viewer_perms)
 
         editor_perms = [
-            Permission.objects.get(
-                codename="can_view_meeting", content_type=meeting_content_type
-            ),
-            Permission.objects.get(
-                codename="can_edit_meeting", content_type=meeting_content_type
-            ),
-            Permission.objects.get(
-                codename="can_view_action_item", content_type=action_content_type
-            ),
-            Permission.objects.get(
-                codename="can_complete_action_item", content_type=action_content_type
-            ),
+            can_view_meeting,
+            can_edit_meeting,
+            can_view_action_item,
+            can_complete_action_item,
         ]
         editors_group.permissions.set(editor_perms)
 
