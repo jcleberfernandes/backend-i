@@ -5,7 +5,11 @@ app = typer.Typer()
 
 
 @app.command("create-meeting")
-def create_meeting_cmd(title: str, date: str, owner: str) -> None:
+def create_meeting_cmd(
+    title: str = typer.Option(..., "--title"),
+    date: str = typer.Option(..., "--date"),
+    owner: str = typer.Option(..., "--owner"),
+) -> None:
     meeting = create_meeting(title, date, owner)
     typer.echo(f"Created: {meeting.id}")
 
