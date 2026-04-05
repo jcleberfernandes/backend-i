@@ -17,7 +17,11 @@ app = typer.Typer()
 
 
 @app.command("create-meeting")
-def create_meeting_cmd(title: str, date: str, owner: str) -> None:
+def create_meeting_cmd(
+    title: str = typer.Option(..., "--title"),
+    date: str = typer.Option(..., "--date"),
+    owner: str = typer.Option(..., "--owner"),
+) -> None:
     try:
         validate_iso_date(date)
         meeting = create_meeting(title, date, owner)
@@ -34,7 +38,7 @@ def list_meetings_cmd() -> None:
 
 
 @app.command("show-meeting")
-def show_meeting_cmd(id: str) -> None:
+def show_meeting_cmd(id: str = typer.Option(..., "--id")) -> None:
     try:
         meeting = get_meeting(id)
         typer.echo(f"ID: {meeting.id}")
@@ -47,7 +51,7 @@ def show_meeting_cmd(id: str) -> None:
 
 
 @app.command("delete-meeting")
-def delete_meeting_cmd(id: str) -> None:
+def delete_meeting_cmd(id: str = typer.Option(..., "--id")) -> None:
     try:
         delete_meeting(id)
         typer.echo(f"Deleted meeting {id}")
