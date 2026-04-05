@@ -1,7 +1,0 @@
----
-title: title
-owner: owner
-date: date
----
-# Meeting
-
